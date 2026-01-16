@@ -63,7 +63,8 @@ const Navbar = ({
     title: "Shadcnblocks.com",
   },
   menu = [
-    { title: "Home", url: "/" },
+    { title: "Home",
+       url: "/" },
     
   
     {
@@ -75,7 +76,11 @@ const Navbar = ({
       url: "/blog",
     },
     {
-      title: "contact",
+      title: "About",
+      url: "/about",
+    },
+    {
+      title: "Contact",
       url: "/contact",
     },
   ],
