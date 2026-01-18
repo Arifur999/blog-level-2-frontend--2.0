@@ -21,6 +21,10 @@ export default function Page({
    user,
 
  }: { children: ReactNode, admin: ReactNode, user: ReactNode }) {
+  
+const userInfo = { role: "admin" };
+
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -46,8 +50,8 @@ export default function Page({
           </Breadcrumb>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">
-          {admin}
-          {user}
+
+          {userInfo.role === "admin" ? admin : user}
         </div>
       </SidebarInset>
     </SidebarProvider>
