@@ -1,6 +1,9 @@
 import { error } from "console";
 import { cookies } from "next/dist/server/request/cookies";
 
+
+
+const BACKEND_API = process.env.NEXT_PUBLIC_AUTH_URL;
 export const userService = {
     getSession: async function() {
 
@@ -10,7 +13,7 @@ export const userService = {
   const cookieStore = await cookies();
   console.log(cookieStore);
 
-  const res = await fetch("http://localhost:5000/api/get-session",{
+  const res = await fetch(`${BACKEND_API}/get-session`,{
     headers: {
       cookie: cookieStore.toString()
     },
@@ -20,7 +23,7 @@ const session =await res.json();
 console.log("Session from server:",session);
 
 
-if(!session.data){
+if(session===null){
     return {data:null,error:{message:"No session data"}};
   
 }
