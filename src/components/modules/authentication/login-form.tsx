@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { authClient } from "@/lib/auth-client"
+import Image from "next/image"
 
 export function LoginForm({
   className,
@@ -26,6 +27,9 @@ const data=authClient.signIn.social({
     callbackURL: 'http://localhost:3000',
 })
 
+
+const session=authClient.useSession();
+console.log(session);
 
 }
 
@@ -103,7 +107,9 @@ const data=authClient.signIn.social({
             </FieldGroup>
           </form>
           <div className="bg-muted relative hidden md:block">
-            <img
+            <Image
+            height={100}
+            width={200}
               src="/placeholder.svg"
               alt="Image"
               className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
