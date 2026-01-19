@@ -1,9 +1,9 @@
-import { error } from "console";
+import { env } from "@/env";
 import { cookies } from "next/dist/server/request/cookies";
 
 
 
-const BACKEND_API = process.env.NEXT_PUBLIC_AUTH_URL;
+const BACKEND_API = env.AUTH_URL;
 export const userService = {
     getSession: async function() {
 
