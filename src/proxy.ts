@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { userService } from "./app/services/user.service";
+import { Roles } from "./constants/roles";
 
 export async function proxy(request: NextRequest) {
 
@@ -11,7 +12,7 @@ let isAdmin=false;
 
     if (data) {
         isAuthenticated = true;
-        isAdmin=data.user.role==="ADMIN"
+        isAdmin=data.user.role===Roles.admin;
     }
     console.log(data);
     
