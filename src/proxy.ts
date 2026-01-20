@@ -4,6 +4,8 @@ import { Roles } from "./constants/roles";
 
 export async function proxy(request: NextRequest) {
 
+    const pathname=request.nextUrl.pathname;
+
 let isAuthenticated=false;
 let isAdmin=false;
 
@@ -15,7 +17,19 @@ let isAdmin=false;
         isAdmin=data.user.role===Roles.admin;
     }
     console.log(data);
+
+
+    if(!isAuthenticated){
+        return NextResponse.redirect(new URL("/login",request.url))
+    }
     
+    if (isAdmin && pathname.startsWith("/dashboard")) {
+        return NextResponse.redirect(new URL("/admin-dashboard",request.url))
+    }
+
+    if (!isAdmin && pathname.startsWith("/admin-dashboard")) {
+        return NextResponse.redirect(new URL ("/dashboard",request.url))
+    }
     return NextResponse.next();
 }
    
