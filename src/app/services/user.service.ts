@@ -3,7 +3,7 @@ import { cookies } from "next/dist/server/request/cookies";
 
 
 
-const BACKEND_API = env.AUTH_URL;
+const AUTH_URL = env.AUTH_URL;
 export const userService = {
     getSession: async function() {
 
@@ -13,7 +13,7 @@ export const userService = {
   const cookieStore = await cookies();
   console.log(cookieStore);
 
-  const res = await fetch(`${BACKEND_API}/get-session`,{
+  const res = await fetch(`${AUTH_URL}/get-session`,{
     headers: {
       cookie: cookieStore.toString()
     },
