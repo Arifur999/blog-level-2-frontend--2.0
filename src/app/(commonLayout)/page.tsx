@@ -4,8 +4,15 @@ import { blogService } from "@/services/blog.service";
 
 export default async function Home() {
 
-  const {data} = await blogService.getBlogPosts()
-  console.log("Session data in home page:",data);
+  const {data} = await blogService.getBlogPosts(
+    {
+    isFeatured:true,
+  
+    }
+  ,{
+    cache :"no-cache"
+  })
+ 
 
 
   return (
