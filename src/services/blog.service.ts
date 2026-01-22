@@ -1,55 +1,71 @@
-import { env } from "@/env"
+import { env } from "@/env";
 
-interface GetBlogParams{
-isFeatured?: boolean,
-search?:string,
+const API_URL = env.API_URL;
 
+//* No Dynamic and No { cache: no-store } : SSG -> Static Page
+//* { cache: no-store } : SSR -> Dynamic Page
+//* next: { revalidate: 10 } : ISR -> Mix between static and dynamic
+
+interface ServiceOptions {
+  cache?: RequestCache;
+  revalidate?: number;
 }
 
-interface ServiceOption{
-    cache?:RequestCache
-    revalidate?: number
+interface GetBlogsParams {
+  isFeatured?: boolean;
+  search?: string;
 }
 
-export const API_URL =env.API_URL
+export const blogService = {
+  getBlogPosts: async function (
+    params?: GetBlogsParams,
+    options?: ServiceOptions,
+  ) {
+    try {
+      const url = new URL(`${API_URL}/posts`);
 
-export const blogService={
-    getBlogPosts: async function (params?:GetBlogParams,option?:ServiceOption){
-       
+      if (params) {
+        Object.entries(params).forEach(([key, value]) => {
+          if (value !== undefined && value !== null && value !== "") {
+            url.searchParams.append(key, value);
+          }
+        });
+      }
 
-        try {
-const url =new URL(`${API_URL}/posts`)
+      const config: RequestInit = {};
 
-            if (params) {
-               Object.entries(params).forEach(([key,value]) =>{
+      if (options?.cache) {
+        config.cache = options.cache;
+      }
 
-if (value!== undefined && value !== null && value !== " ") {
-    url.searchParams.append(key,value);
-}
+      if (options?.revalidate) {
+        config.next = { revalidate: options.revalidate };
+      }
 
+      const res = await fetch(url.toString(), config);
 
-   } )
-            }
+      const data = await res.json();
 
-            const config:RequestInit={};
+      // This is an example
+      //   if(data.success) {
+      //     return
+      //   }
 
-            if (option?.cache) {
-                config.cache=option.cache
-            }
-
-            if (option?.revalidate){
-                config.next={revalidate:option.revalidate}
-            }
-           
-// url.searchParams.append("key","value")
-const res=await fetch(url.toString(),config)
-
-            const data =await res.json()
-            return {data:data ,error:null} ;
-
-        } catch (err) {
-            return {date : null,error: {message:"something wrong"}}
-        }
-
+      return { data: data, error: null };
+    } catch (err) {
+      return { data: null, error: { message: "Something Went Wrong" } };
     }
-}
+  },
+
+  getBlogById: async function (id: string) {
+    try {
+      const res = await fetch(`${API_URL}/posts/${id}`);
+
+      const data = await res.json();
+
+      return { data: data, error: null };
+    } catch (err) {
+      return { data: null, error: { message: "Something Went Wrong" } };
+    }
+  },
+};

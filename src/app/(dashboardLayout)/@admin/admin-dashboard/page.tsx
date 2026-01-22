@@ -1,5 +1,7 @@
-export default function AdminDashboardPage() {
+export default function AdminDashboard() {
   return (
-    <div>admin dashboard page</div>
-  )
+    <div>
+      <h1> Admin Dashboard </h1>
+    </div>
+  );
 }

@@ -1,25 +1,23 @@
+import BlogCard from "@/components/modules/homepage/BlogCard";
+
 import { blogService } from "@/services/blog.service";
-
-
+import { BlogPost } from "@/types";
 
 export default async function Home() {
-
-  const {data} = await blogService.getBlogPosts(
+  const { data } = await blogService.getBlogPosts(
     {
-    isFeatured:true,
-  
-    }
-  ,{
-    cache :"no-cache"
-  })
- 
-
+      isFeatured: false,
+    },
+    {
+      cache: "no-store",
+    },
+  );
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
-
-      <h1 className="text-4xl font-bold">Welcome to My Blog!</h1>
-     
+    <div className="grid grid-cols-3 max-w-7xl mx-auto px-4 gap-6">
+      {data?.data?.map((post: BlogPost) => (
+        <BlogCard key={post.id} post={post} />
+      ))}
     </div>
   );
 }

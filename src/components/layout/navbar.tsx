@@ -1,11 +1,10 @@
 "use client";
 
+import { Menu } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-import {
-  Accordion
-} from "@/components/ui/accordion";
+import { Accordion } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
@@ -20,9 +19,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import Image from "next/image";
 import Link from "next/link";
-import { Menu } from "lucide-react";
 import { ModeToggle } from "./ModeToggle";
 
 interface MenuItem {
@@ -57,31 +54,20 @@ interface Navbar1Props {
 
 const Navbar = ({
   logo = {
-    url: "https://www.shadcnblocks.com",
+    url: "/",
     src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/logos/shadcnblockscom-icon.svg",
     alt: "logo",
-    title: "Shadcnblocks.com",
+    title: "Next Blog",
   },
   menu = [
-    { title: "Home",
-       url: "/" },
-    
-  
+    { title: "Home", url: "/" },
     {
-      title: "Pricing",
-      url: "/pricing",
-    },
-    {
-      title: "Blog",
-      url: "/blog",
+      title: "Blogs",
+      url: "/blogs",
     },
     {
       title: "About",
       url: "/about",
-    },
-    {
-      title: "Contact",
-      url: "/contact",
     },
     {
       title: "Dashboard",
@@ -90,29 +76,27 @@ const Navbar = ({
   ],
   auth = {
     login: { title: "Login", url: "/login" },
-    signup: { title: "Sign up", url: "/signup" },
+    signup: { title: "Register", url: "/register" },
   },
   className,
 }: Navbar1Props) => {
   return (
-    <section className={cn("py-4", className)}>
-      <div className="container mx-auto">
+    <section className={cn("py-4 ", className)}>
+      <div className="container mx-auto px-4">
         {/* Desktop Menu */}
-        <nav className="hidden items-center justify-between lg:flex ">
+        <nav className="hidden items-center justify-between lg:flex">
           <div className="flex items-center gap-6">
             {/* Logo */}
-           <Link href={logo.url} className="flex items-center gap-2">
-  <Image
-    src={logo.src}
-    alt={logo.alt}
-    width={32}
-    height={32}
-    className="max-h-8 dark:invert"
-  />
-  <span className="text-lg font-semibold tracking-tighter">
-    {logo.title}
-  </span>
-</Link>
+            <a href={logo.url} className="flex items-center gap-2">
+              <img
+                src={logo.src}
+                className="max-h-8 dark:invert"
+                alt={logo.alt}
+              />
+              <span className="text-lg font-semibold tracking-tighter">
+                {logo.title}
+              </span>
+            </a>
             <div className="flex items-center">
               <NavigationMenu>
                 <NavigationMenuList>
@@ -136,15 +120,13 @@ const Navbar = ({
         <div className="block lg:hidden">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <Link href={logo.url} className="flex items-center gap-2">
-              <Image
+            <a href={logo.url} className="flex items-center gap-2">
+              <img
                 src={logo.src}
-                width={32}
-                height={32}
                 className="max-h-8 dark:invert"
                 alt={logo.alt}
               />
-            </Link>
+            </a>
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="outline" size="icon">
@@ -154,13 +136,13 @@ const Navbar = ({
               <SheetContent className="overflow-y-auto">
                 <SheetHeader>
                   <SheetTitle>
-                    <Link href={logo.url} className="flex items-center gap-2">
-                      <Image
+                    <a href={logo.url} className="flex items-center gap-2">
+                      <img
                         src={logo.src}
                         className="max-h-8 dark:invert"
                         alt={logo.alt}
                       />
-                    </Link>
+                    </a>
                   </SheetTitle>
                 </SheetHeader>
                 <div className="flex flex-col gap-6 p-4">
@@ -191,31 +173,24 @@ const Navbar = ({
 };
 
 const renderMenuItem = (item: MenuItem) => {
-
   return (
     <NavigationMenuItem key={item.title}>
-      <NavigationMenuLink asChild
-       
+      <NavigationMenuLink
+        asChild
         className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-accent-foreground"
       >
-
         <Link href={item.url}>{item.title}</Link>
-    
       </NavigationMenuLink>
     </NavigationMenuItem>
   );
 };
 
 const renderMobileMenuItem = (item: MenuItem) => {
-
-
   return (
-    <a key={item.title} href={item.url} className="text-md font-semibold">
+    <Link key={item.title} href={item.url} className="text-md font-semibold">
       {item.title}
-    </a>
+    </Link>
   );
 };
-
-
 
 export { Navbar };

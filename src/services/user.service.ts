@@ -1,40 +1,32 @@
 import { env } from "@/env";
-import { cookies } from "next/dist/server/request/cookies";
-
-
+import { cookies } from "next/headers";
 
 const AUTH_URL = env.AUTH_URL;
+
 export const userService = {
-    getSession: async function() {
+  getSession: async function () {
+    try {
+      const cookieStore = await cookies();
 
-        try {
-            
+      console.log(cookieStore.toString());
 
-  const cookieStore = await cookies();
-  console.log(cookieStore);
+      const res = await fetch(`${AUTH_URL}/get-session`, {
+        headers: {
+          Cookie: cookieStore.toString(),
+        },
+        cache: "no-store",
+      });
 
-  const res = await fetch(`${AUTH_URL}/get-session`,{
-    headers: {
-      cookie: cookieStore.toString()
-    },
-    cache: 'no-store'
-  });
-const session =await res.json();
-console.log("Session from server:",session);
+      const session = await res.json();
 
+      if (session === null) {
+        return { data: null, error: { message: "Session is missing." } };
+      }
 
-if(session===null){
-    return {data:null,error:{message:"No session data"}};
-  
-}
-
-
-    return {data:session,error:null};
-
-        } catch (error) {
-            console.error("Error fetching session:", error);
-            return {data:null,error:{message:"Failed to fetch session"}};
-        }
-       
+      return { data: session, error: null };
+    } catch (err) {
+      console.error(err);
+      return { data: null, error: { message: "Something Went Wrong" } };
     }
+  },
 };

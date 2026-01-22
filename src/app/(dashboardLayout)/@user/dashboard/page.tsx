@@ -1,6 +1,7 @@
-
-export default function UserDashboardPage() {
+export default function UserDashboard() {
   return (
-    <div>user dashboard page</div>
-  )
+    <div>
+      <h1> User Dashboard </h1>
+    </div>
+  );
 }
